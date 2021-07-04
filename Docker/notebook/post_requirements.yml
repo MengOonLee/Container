@@ -5,16 +5,17 @@ channels:
   - plotly
   - intel
 dependencies:
+  - python=3.8
+  - jupyterlab
+  - ipywidgets
   - numpy
   - pandas
   - matplotlib
   - seaborn
-  - jupyterlab
-  - ipywidgets
   - plotly
   - tensorflow-gpu
   - scikit-learn
-  - scikit-learn-intelex
+  - imbalanced-learn
   - tqdm
   - sqlalchemy
   - pymysql

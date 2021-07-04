@@ -17,6 +17,8 @@ spec:
       containers:
       - name: notebook
         image: darklemon/notebook:latest
+        imagePullPolicy: IfNotPresent
+        name: notebook
         ports:
         - containerPort: 8888
         volumeMounts:

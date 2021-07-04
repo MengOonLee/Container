@@ -41,7 +41,7 @@ RUN echo "auth requisite pam_deny.so" >> /etc/pam.d/su && \
 
 USER "${NB_UID}"
 
-RUN mkdir "${HOME}/work" && \
+RUN mkdir -p "${HOME}/work" && \
     fix-permissions "${HOME}"
     
 WORKDIR /tmp
@@ -54,12 +54,17 @@ RUN /bin/bash ./miniconda.sh -f -b -p "${CONDA_DIR}" && \
     rm -rf "${HOME}/.cache/yarn" && \
     fix-permissions "${HOME}" && \
     fix-permissions "${CONDA_DIR}"
-    
-COPY ./requirements.yaml ./requirements.yaml
-RUN conda env create -f ./requirements.yaml
+
+COPY ./requirements.yml ./requirements.yml
+
+RUN conda create -n notebook python=3.8
+RUN conda env update -f ./requirements.yml --prune
 
 ENV CONDA_ENV="${CONDA_DIR}/envs/notebook"
 ENV PATH="${CONDA_ENV}/bin:$PATH"
+
+# Make RUN commands use the new environment:
+SHELL ["conda", "run", "-n", "notebook", "/bin/bash", "-c"]
 
 RUN jupyter labextension install jupyterlab-plotly && \
     conda upgrade --all --quiet --yes && \
@@ -73,4 +78,4 @@ WORKDIR "${HOME}"
 
 EXPOSE 8888
 
-ENTRYPOINT ["jupyter-lab", "--no-browser", "--ip='0.0.0.0'", "--ServerApp.token=''", "--ServerApp.password=''"]
+ENTRYPOINT ["conda", "run", "--no-capture-output", "-n", "notebook", "jupyter-lab", "--no-browser", "--ip='0.0.0.0'", "--ServerApp.token=''", "--ServerApp.password=''"]
