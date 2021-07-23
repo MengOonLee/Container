@@ -4,11 +4,17 @@ metadata:
   name: cloudbeaver
   labels:
     app: cloudbeaver
+  namespace: ai
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: cloudbeaver
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
   template:
     metadata:
       labels:
@@ -16,9 +22,19 @@ spec:
     spec:
       containers:
       - name: cloudbeaver
-        image: dbeaver/cloudbeaver:latest
+        image: cloudbeaver:local
+        imagePullPolicy: Never
         ports:
         - containerPort: 8978
+          protocol: TCP
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8978
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 8978
         volumeMounts:
         - name: hostvol
           mountPath: /opt/cloudbeaver/workspace
