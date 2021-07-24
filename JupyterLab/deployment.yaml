@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notebook
+  labels:
+    app: notebook
+  namespace: ai
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: notebook
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+  template:
+    metadata:
+      labels:
+        app: notebook
+    spec:
+      containers:
+      - name: notebook
+        image: notebook:local
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8888
+          protocol: TCP
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8888
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 8888
+        volumeMounts:
+        - name: hostvol
+          mountPath: /home/meng/work
+        resources:
+          requests:
+            nvidia.com/gpu: 1
+          limits:
+            nvidia.com/gpu: 1
+      volumes:
+        - name: hostvol
+          hostPath:
+            path: /home/meng/Project

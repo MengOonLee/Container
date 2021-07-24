@@ -1,0 +1,6 @@
+Dockerfile
+*.yaml
+README.md
+__pycache__
+.ipynb_checkpoints
+*.ipynb
