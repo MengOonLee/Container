@@ -4,12 +4,13 @@ metadata:
   name: cloudbeaver
   labels:
     app: cloudbeaver
-  namespace: ai
+  namespace: tool
 spec:
-  type: ClusterIP
+  type: NodePort
   selector:
     app: cloudbeaver
   ports:
   - protocol: TCP
     port: 8978
     targetPort: 8978
+    nodePort: 30002

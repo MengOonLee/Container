@@ -1,15 +1,15 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: notebook
+  name: cloudbeaver
   labels:
-    app: notebook
+    app: cloudbeaver
   namespace: tool
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: notebook
+      app: cloudbeaver
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -18,32 +18,27 @@ spec:
   template:
     metadata:
       labels:
-        app: notebook
+        app: cloudbeaver
     spec:
       containers:
-      - name: notebook
-        image: darklemon/jupyterlab:latest
+      - name: cloudbeaver
+        image: dbeaver/cloudbeaver:latest
         imagePullPolicy: IfNotPresent
         ports:
-        - containerPort: 8888
+        - containerPort: 8978
           protocol: TCP
         livenessProbe:
           httpGet:
             path: /
-            port: 8888
+            port: 8978
         readinessProbe:
           httpGet:
             path: /
-            port: 8888
+            port: 8978
         volumeMounts:
         - name: hostvol
-          mountPath: "/home/meng/work"
-        resources:
-          requests:
-            nvidia.com/gpu: 1
-          limits:
-            nvidia.com/gpu: 1
+          mountPath: "/opt/cloudbeaver/workspace"
       volumes:
         - name: hostvol
           hostPath:
-            path: "/home/meng/Project"
+            path: "/var/cloudbeaver/workspace"

@@ -4,9 +4,9 @@ metadata:
   name: cloudbeaver
   labels:
     app: cloudbeaver
-  namespace: ai
+  namespace: {{.Values.namespace.name}}
 spec:
-  replicas: 1
+  replicas: {{.Values.replicaCount}}
   selector:
     matchLabels:
       app: cloudbeaver
@@ -22,8 +22,8 @@ spec:
     spec:
       containers:
       - name: cloudbeaver
-        image: cloudbeaver:local
-        imagePullPolicy: Never
+        image: {{.Values.image.repository}}:{{.Values.image.tag}}
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8978
           protocol: TCP
@@ -37,8 +37,8 @@ spec:
             port: 8978
         volumeMounts:
         - name: hostvol
-          mountPath: /opt/cloudbeaver/workspace
+          mountPath: "/opt/cloudbeaver/workspace"
       volumes:
         - name: hostvol
           hostPath:
-            path: /var/cloudbeaver/workspace
+            path: {{.Values.volumeMount.path}}

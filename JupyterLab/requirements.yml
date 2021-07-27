@@ -28,4 +28,3 @@ dependencies:
     - torchvision
     - torchaudio
     - apache-beam[gcp]
-    - tfx

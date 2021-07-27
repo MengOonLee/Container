@@ -4,12 +4,13 @@ metadata:
   name: notebook
   labels:
     app: notebook
-  namespace: ai
+  namespace: tool
 spec:
-  type: ClusterIP
+  type: NodePort
   selector:
     app: notebook
   ports:
   - protocol: TCP
     port: 8888
     targetPort: 8888
+    nodePort: 30001

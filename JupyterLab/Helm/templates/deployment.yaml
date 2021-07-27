@@ -1,15 +1,15 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: notebook
+  name: jupyterlab
   labels:
-    app: notebook
-  namespace: tool
+    app: jupyterlab
+  namespace: {{.Values.namespace.name}}
 spec:
-  replicas: 1
+  replicas: {{.Values.replicaCount}}
   selector:
     matchLabels:
-      app: notebook
+      app: jupyterlab
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -18,11 +18,11 @@ spec:
   template:
     metadata:
       labels:
-        app: notebook
+        app: jupyterlab
     spec:
       containers:
-      - name: notebook
-        image: darklemon/jupyterlab:latest
+      - name: jupyterlab
+        image: {{.Values.image.repository}}:{{.Values.image.tag}}
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8888
@@ -46,4 +46,4 @@ spec:
       volumes:
         - name: hostvol
           hostPath:
-            path: "/home/meng/Project"
+            path: {{.Values.volumeMount.path}}

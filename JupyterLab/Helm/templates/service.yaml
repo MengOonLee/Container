@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: jupyterlab
+  labels:
+    app: jupyterlab
+  namespace: {{.Values.namespace.name}}
+spec:
+  type: {{.Values.service.type}}
+  selector:
+    app: jupyterlab
+  ports:
+  - protocol: TCP
+    port: 8888
+    targetPort: 8888
+    nodePort: {{.Values.service.nodePort}}
