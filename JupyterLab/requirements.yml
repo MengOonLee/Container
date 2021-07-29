@@ -13,7 +13,6 @@ dependencies:
   - matplotlib
   - seaborn
   - plotly
-  - tensorflow-gpu
   - scikit-learn
   - imbalanced-learn
   - tqdm
@@ -22,9 +21,9 @@ dependencies:
   - pymssql
   - networkx
   - pytest
+  - tensorflow-gpu
   - pip
   - pip:
     - torch
     - torchvision
     - torchaudio
-    - apache-beam[gcp]

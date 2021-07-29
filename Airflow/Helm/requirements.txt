@@ -1,0 +1,4 @@
+pymssql==2.2.2
+apache-airflow-providers-microsoft-mssql==2.0.0
+apache-beam[gcp]==2.31.0
+apache-airflow-providers-apache-beam[google]==3.0.0

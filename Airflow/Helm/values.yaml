@@ -34,10 +34,10 @@ gid: 0
 airflowHome: /opt/airflow
 
 # Default airflow repository -- overrides all the specific images below
-defaultAirflowRepository: apache/airflow
+defaultAirflowRepository: darklemon/airflow
 
 # Default airflow tag to deploy
-defaultAirflowTag: "2.1.2"
+defaultAirflowTag: "0.0.1"
 
 # Airflow version (Used to make some decisions based on Airflow Version being deployed)
 airflowVersion: "2.1.2"
@@ -1164,21 +1164,21 @@ dags:
     ## the name of an existing PVC to use
     existingClaim:
   gitSync:
-    enabled: false
+    enabled: true
 
     # git repo clone url
     # ssh examples ssh://git@github.com/apache/airflow.git
     # git@github.com:apache/airflow.git
     # https example: https://github.com/apache/airflow.git
-    repo: https://github.com/apache/airflow.git
-    branch: v2-1-stable
+    repo: ssh://git@github.com/MengOonLee/Container.git
+    branch: main
     rev: HEAD
     depth: 1
     # the number of consecutive failures allowed before aborting
     maxFailures: 0
     # subpath within the repo where dags are located
     # should be "" if dags are at repo root
-    subPath: "tests/dags"
+    subPath: "Airflow/dags"
     # if your repo needs a user name password
     # you can load them to a k8s secret like the one below
     #   ---
@@ -1205,12 +1205,13 @@ dags:
     #     # key needs to be gitSshKey
     #     gitSshKey: <base64_encoded_data>
     # and specify the name of the secret below
-    # sshKeySecret: airflow-ssh-secret
+    sshKeySecret: airflow-ssh-secret
     #
     # If you are using an ssh private key, you can additionally
     # specify the content of your known_hosts file, example:
     #
-    # knownHosts: |
+    knownHosts: |
+        github.com ssh-rsa nThbg6kXUpJWGl7E1IGOCspRomTxdCARLviKw6E5SY8
     #    <host1>,<ip1> <key1>
     #    <host2>,<ip2> <key2>
     # interval between git sync attempts in seconds

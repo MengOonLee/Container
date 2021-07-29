@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
       - name: notebook
-        image: darklemon/jupyterlab:latest
+        image: darklemon/jupyterlab:0.0.1
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8888

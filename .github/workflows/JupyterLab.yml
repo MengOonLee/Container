@@ -30,4 +30,4 @@ jobs:
           file: ./JupyterLab/Dockerfile
           platforms: linux/amd64
           push: true
-          tags: darklemon/jupyterlab:latest
+          tags: darklemon/jupyterlab:0.0.1
