@@ -37,7 +37,7 @@ airflowHome: /opt/airflow
 defaultAirflowRepository: darklemon/airflow
 
 # Default airflow tag to deploy
-defaultAirflowTag: "0.0.1"
+defaultAirflowTag: "latest"
 
 # Airflow version (Used to make some decisions based on Airflow Version being deployed)
 airflowVersion: "2.1.2"
@@ -45,9 +45,9 @@ airflowVersion: "2.1.2"
 # Images
 images:
   airflow:
-    repository: ~
-    tag: ~
-    pullPolicy: IfNotPresent
+    repository: darklemon/airflow
+    tag: latest
+    pullPolicy: Always
   pod_template:
     repository: ~
     tag: ~
@@ -216,7 +216,7 @@ extraConfigMaps: {}
 # Extra env 'items' that will be added to the definition of airflow containers
 # a string is expected (can be templated).
 # TODO: difference from `env`? This is a templated string. Probably should template `env` and remove this.
-# extraEnv: ~
+extraEnv: ~
 # eg:
 # extraEnv: |
 #   - name: AIRFLOW__CORE__LOAD_EXAMPLES
@@ -1164,21 +1164,21 @@ dags:
     ## the name of an existing PVC to use
     existingClaim:
   gitSync:
-    enabled: true
+    enabled: false
 
     # git repo clone url
     # ssh examples ssh://git@github.com/apache/airflow.git
     # git@github.com:apache/airflow.git
     # https example: https://github.com/apache/airflow.git
-    repo: ssh://git@github.com/MengOonLee/Container.git
-    branch: main
+    repo: https://github.com/apache/airflow.git
+    branch: v2-1-stable
     rev: HEAD
     depth: 1
     # the number of consecutive failures allowed before aborting
     maxFailures: 0
     # subpath within the repo where dags are located
     # should be "" if dags are at repo root
-    subPath: "Airflow/dags"
+    subPath: "tests/dags"
     # if your repo needs a user name password
     # you can load them to a k8s secret like the one below
     #   ---
@@ -1205,7 +1205,7 @@ dags:
     #     # key needs to be gitSshKey
     #     gitSshKey: <base64_encoded_data>
     # and specify the name of the secret below
-    sshKeySecret: airflow-ssh-secret
+    # sshKeySecret: airflow-ssh-secret
     #
     # If you are using an ssh private key, you can additionally
     # specify the content of your known_hosts file, example:
@@ -1237,3 +1237,13 @@ logs:
     storageClassName:
     ## the name of an existing PVC to use
     existingClaim:
+    
+airflow:
+  extraVolumeMounts:
+    - name: dags
+      mountPath: "/opt/airflow/dags"
+      
+  extraVolumes:
+    - name: dags
+      hostPath:
+        path: "/home/meng/Project/Container/Airflow/dags"
