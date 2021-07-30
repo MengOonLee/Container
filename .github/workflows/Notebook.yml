@@ -2,7 +2,7 @@ name: Docker Build and Push
 on:
   push:
     branches: [main]
-    paths: [JupyterLab/**]
+    paths: [Notebook/**]
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -26,8 +26,8 @@ jobs:
         name: Build and push
         uses: docker/build-push-action@v2
         with:
-          context: ./JupyterLab
-          file: ./JupyterLab/Dockerfile
+          context: ./Notebook
+          file: ./Notebook/Dockerfile
           platforms: linux/amd64
           push: true
-          tags: darklemon/jupyterlab:0.0.1
+          tags: darklemon/notebook:latest

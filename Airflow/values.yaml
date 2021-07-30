@@ -1210,8 +1210,7 @@ dags:
     # If you are using an ssh private key, you can additionally
     # specify the content of your known_hosts file, example:
     #
-    knownHosts: |
-        github.com ssh-rsa nThbg6kXUpJWGl7E1IGOCspRomTxdCARLviKw6E5SY8
+    # knownHosts: |
     #    <host1>,<ip1> <key1>
     #    <host2>,<ip2> <key2>
     # interval between git sync attempts in seconds

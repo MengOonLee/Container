@@ -23,7 +23,7 @@ spec:
       containers:
       - name: cloudbeaver
         image: dbeaver/cloudbeaver:latest
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         ports:
         - containerPort: 8978
           protocol: TCP
