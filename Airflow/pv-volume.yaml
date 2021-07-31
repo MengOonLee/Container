@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: airflow-pv-volume
+  labels:
+    type: local
+  namespace: airflow
+spec:
+  storageClassName: microk8s-hostpath
+  capacity:
+    storage: 20Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/home/meng/Project/Container/Airflow/dags"

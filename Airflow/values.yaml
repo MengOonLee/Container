@@ -1154,15 +1154,15 @@ podTemplate: ~
 dags:
   persistence:
     # Enable persistent volume for storing dags
-    enabled: false
+    enabled: true
     # Volume size for dags
-    size: 1Gi
+    size: 20Gi
     # If using a custom storageClass, pass name here
-    storageClassName:
+    storageClassName: microk8s-hostpath
     # access mode of the persistent volume
     accessMode: ReadWriteOnce
     ## the name of an existing PVC to use
-    existingClaim:
+    existingClaim: airflow-pv-claim
   gitSync:
     enabled: false
 
@@ -1237,13 +1237,3 @@ logs:
     storageClassName:
     ## the name of an existing PVC to use
     existingClaim:
-    
-airflow:
-  extraVolumeMounts:
-    - name: dags
-      mountPath: "/opt/airflow/dags"
-      
-  extraVolumes:
-    - name: dags
-      hostPath:
-        path: "/home/meng/Project/Container/Airflow/dags"

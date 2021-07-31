@@ -4,20 +4,15 @@ LABEL maintainer="Meng Oon Lee <darklemon2000@gmail.com>"
 ENV NB_USER="meng" \
     NB_UID="1000" \
     NB_GID="100" \
+    NB_ENV="notebook" \
     PYTHON_VER=3.8 \
     DEBIAN_FRONTEND=noninteractive \
     CONDA_DIR=/opt/conda
     
 ENV HOME="/home/${NB_USER}" \
-    PATH="${CONDA_DIR}/bin:${PATH}" \
-    CONDA_ENV="${CONDA_DIR}/envs/${NB_ENV}"
-    
-ENV PATH="${CONDA_ENV}/bin:$PATH"
-    
-WORKDIR "${HOME}"
+    PATH="${CONDA_DIR}/bin:${PATH}"
 
 COPY fix-permissions /usr/local/bin/fix-permissions
-COPY requirements.yml ./requirements.yml
     
 USER root
 RUN apt-get update -y && \
@@ -47,19 +42,25 @@ RUN apt-get update -y && \
     chown "${NB_USER}:${NB_GID}" "${CONDA_DIR}" && \
     chmod g+w /etc/passwd && \
     fix-permissions "${HOME}" && \
-    fix-permissions "${CONDA_DIR}" && \
-    wget -qO ./miniconda.sh "https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh"
+    fix-permissions "${CONDA_DIR}"
     
 USER "${NB_UID}"
-RUN /bin/bash ./miniconda.sh -f -b -p "${CONDA_DIR}" && \
-    rm ./miniconda.sh && \
+
+WORKDIR "${HOME}"
+
+COPY requirements.yml .
+
+RUN wget -qO miniconda.sh "https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh" && \
+    /bin/bash miniconda.sh -f -b -p "${CONDA_DIR}" && \
+    rm miniconda.sh && \
     conda update --all --quiet --yes && \
     conda clean --all -f -y && \
     rm -rf "${HOME}/.cache/yarn" && \
     fix-permissions "${HOME}" && \
     fix-permissions "${CONDA_DIR}" && \
-    conda create -n notebook python="${PYTHON_VER}" && \
-    conda env update -f ./requirements.yml --prune
+    conda create -n "${NB_ENV}" python="${PYTHON_VER}" && \
+    conda env update -f requirements.yml --prune && \
+    rm -rf requirements.yml
 
 # Make RUN commands use the new environment:
 SHELL ["conda", "run", "-n", "notebook", "/bin/bash", "-c"]
@@ -74,5 +75,7 @@ RUN jupyter labextension install jupyterlab-plotly && \
     mkdir -p "${HOME}/work"
     
 EXPOSE 8888
+    
+WORKDIR "${HOME}/work"
 
 ENTRYPOINT ["conda", "run", "--no-capture-output", "-n", "notebook", "jupyter-lab", "--no-browser", "--ip='0.0.0.0'", "--ServerApp.token=''", "--ServerApp.password=''", "--ContentsManager.allow_hidden=True"]
