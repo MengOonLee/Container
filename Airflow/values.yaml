@@ -682,12 +682,13 @@ webserver:
   #   CSRF_ENABLED = True
 
   service:
-    type: ClusterIP
+    type: NodePort
     ## service annotations
     annotations: {}
     ports:
       - name: airflow-ui
         port: "{{ .Values.ports.airflowUI }}"
+        nodePort: 30003
     # To change the port used to access the webserver:
     # ports:
     #   - name: airflow-ui
