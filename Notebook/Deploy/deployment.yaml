@@ -46,4 +46,4 @@ spec:
       volumes:
         - name: hostvol
           hostPath:
-            path: "/home/meng/Project"
+            path: "/home/meng/work"
