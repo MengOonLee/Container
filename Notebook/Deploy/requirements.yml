@@ -27,4 +27,5 @@ dependencies:
     - torch
     - torchvision
     - torchaudio
-    - apache-beam[gcp]
+    - apache-beam[gcp, interactive]
+    - gym
