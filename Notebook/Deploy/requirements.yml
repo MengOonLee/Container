@@ -21,9 +21,11 @@ dependencies:
   - pymssql
   - networkx
   - pytest
-  - tensorflow-gpu
+  - cudatoolkit
+  - cudnn
   - pip
   - pip:
+    - tensorflow-gpu
     - torch
     - torchvision
     - torchaudio
