@@ -36,16 +36,14 @@ RUN apt-get update -y && \
     apt-get install -y --no-install-recommends nodejs && \
     apt-get upgrade -y && apt-get autoremove --purge -y && \
     apt-get autoclean -y && apt-get -y clean && \
-    rm -rf /var/lib/apt/lists/* && \
+    rm -rf /var/lib/apt/lists && \
     echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && locale-gen && \
     chmod a+rx /usr/local/bin/fix-permissions && \
     echo "auth requisite pam_deny.so" >> /etc/pam.d/su && \
     useradd -l -m -s /bin/bash -N -u "${NB_UID}" "${NB_USER}" && \
     mkdir -p "${CONDA_DIR}" && \
     chown "${NB_USER}:${NB_GID}" "${CONDA_DIR}" && \
-    chmod g+w /etc/passwd && \
-    fix-permissions "${HOME}" && \
-    fix-permissions "${CONDA_DIR}"
+    chmod g+w /etc/passwd
     
 USER "${NB_UID}"
 
@@ -55,22 +53,21 @@ COPY requirements.yml .
 
 RUN wget -qO miniconda.sh "https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh" && \
     /bin/bash miniconda.sh -f -b -p "${CONDA_DIR}" && \
-    rm miniconda.sh && \
     conda create -n "${NB_ENV}" python="${PYTHON_VER}" && \
     conda env update -f requirements.yml --prune && \
-    rm -rf requirements.yml && \
+    rm miniconda.sh requirements.yml
+    
+# Make RUN commands use the new environment:
+SHELL ["conda", "run", "-n", "notebook", "/bin/bash", "-c"]
+    
+RUN jupyter labextension install jupyterlab-plotly && \
     conda update --all --quiet --yes && \
     conda upgrade --all --quiet --yes && \
     conda clean --all -f -y && \
     npm cache clean --force && \
     rm -rf "${HOME}/.cache/yarn" && \
     fix-permissions "${HOME}" && \
-    fix-permissions "${CONDA_DIR}"
-    
-# Make RUN commands use the new environment:
-SHELL ["conda", "run", "-n", "notebook", "/bin/bash", "-c"]
-    
-RUN jupyter labextension install jupyterlab-plotly && \
+    fix-permissions "${CONDA_DIR}" && \
     mkdir -p "${HOME}/work"
    
 WORKDIR "${HOME}/work"
