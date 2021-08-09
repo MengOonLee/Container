@@ -7,7 +7,8 @@ ENV NB_USER="meng" \
     NB_ENV="notebook" \
     PYTHON_VER=3.8 \
     DEBIAN_FRONTEND=noninteractive \
-    CONDA_DIR=/opt/conda
+    CONDA_DIR=/opt/conda \
+    JAVA_HOME="/usr/lib/jvm/default-java"
     
 ENV HOME="/home/${NB_USER}" \
     PATH="${CONDA_DIR}/bin:${PATH}"
@@ -22,6 +23,8 @@ RUN apt-get update -y && \
         curl \
         ca-certificates \
         locales \
+        default-jre \
+        default-jdk \
         texlive-xetex \
         texlive-fonts-recommended \
         texlive-plain-generic \
@@ -53,29 +56,25 @@ COPY requirements.yml .
 RUN wget -qO miniconda.sh "https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh" && \
     /bin/bash miniconda.sh -f -b -p "${CONDA_DIR}" && \
     rm miniconda.sh && \
-    conda update --all --quiet --yes && \
-    conda clean --all -f -y && \
-    rm -rf "${HOME}/.cache/yarn" && \
-    fix-permissions "${HOME}" && \
-    fix-permissions "${CONDA_DIR}" && \
     conda create -n "${NB_ENV}" python="${PYTHON_VER}" && \
     conda env update -f requirements.yml --prune && \
-    rm -rf requirements.yml
-
-# Make RUN commands use the new environment:
-SHELL ["conda", "run", "-n", "notebook", "/bin/bash", "-c"]
-
-RUN jupyter labextension install jupyterlab-plotly && \
+    rm -rf requirements.yml && \
+    conda update --all --quiet --yes && \
     conda upgrade --all --quiet --yes && \
     conda clean --all -f -y && \
     npm cache clean --force && \
     rm -rf "${HOME}/.cache/yarn" && \
     fix-permissions "${HOME}" && \
-    fix-permissions "${CONDA_DIR}" && \
+    fix-permissions "${CONDA_DIR}"
+    
+# Make RUN commands use the new environment:
+SHELL ["conda", "run", "-n", "notebook", "/bin/bash", "-c"]
+    
+RUN jupyter labextension install jupyterlab-plotly && \
     mkdir -p "${HOME}/work"
-    
-EXPOSE 8888
-    
+   
 WORKDIR "${HOME}/work"
+
+EXPOSE 8888
 
 ENTRYPOINT ["conda", "run", "--no-capture-output", "-n", "notebook", "jupyter-lab", "--no-browser", "--ip='0.0.0.0'", "--ServerApp.token=''", "--ServerApp.password=''", "--ContentsManager.allow_hidden=True"]
