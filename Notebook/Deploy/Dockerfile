@@ -53,7 +53,7 @@ RUN apt-get update -y && \
     conda upgrade --all --quiet -y && \
     conda clean --all -f -y && \
     npm cache clean --force && \
-    rm -rf miniconda.sh requirements.yml
+    rm -rf miniconda.sh requirements.yml && \
     chown $NB_USER:$NB_GID $CONDA_DIR && \
     chmod g+w /etc/passwd
 
