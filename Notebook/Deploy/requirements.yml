@@ -23,13 +23,12 @@ dependencies:
   - pymssql
   - networkx
   - pytest
-  - cudnn
+  - gym
   - cudatoolkit
+  - cudnn
   - pip:
-    - tensorflow-gpu==2.5.0
+    - apache-beam[gcp]
     - torch
     - torchvision
-    - torchaudio
-    - apache-beam[gcp]==2.31.0
-    - gym
-    - tfx==1.0.0
+    - tensorflow-gpu==2.5.0
+    - tfx

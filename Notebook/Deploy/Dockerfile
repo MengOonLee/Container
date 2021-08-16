@@ -41,11 +41,6 @@ RUN apt-get update -y && \
     chmod a+rx /usr/local/bin/fix-permissions && \
     echo "auth requisite pam_deny.so" >> /etc/pam.d/su && \
     useradd -l -m -s /bin/bash -N -u $NB_UID $NB_USER && \
-    mkdir -p $CONDA_DIR && \
-    chown $NB_USER:$NB_GID $CONDA_DIR && \
-    chmod g+w /etc/passwd && \
-    fix-permissions $HOME && \
-    fix-permissions $CONDA_DIR && \
     # The NVIDIA image doesn't come with Python pre-installed.
     # We use Miniconda to install the Python version fo our choice.
     wget -qO miniconda.sh "https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh" && \
@@ -59,6 +54,9 @@ RUN apt-get update -y && \
     conda clean --all -f -y && \
     npm cache clean --force && \
     rm -rf miniconda.sh requirements.yml .cache/yarn && \
+    chown $NB_USER:$NB_GID $CONDA_DIR && \
+    chmod g+w /etc/passwd && \
+    fix-permissions $HOME && \
     mkdir -p $HOME/work
     
 # Make RUN commands use the new environment:
