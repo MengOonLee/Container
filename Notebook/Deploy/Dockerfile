@@ -53,16 +53,20 @@ RUN apt-get update -y && \
     conda upgrade --all --quiet -y && \
     conda clean --all -f -y && \
     npm cache clean --force && \
-    rm -rf miniconda.sh requirements.yml .cache/yarn && \
+    rm -rf miniconda.sh requirements.yml
     chown $NB_USER:$NB_GID $CONDA_DIR && \
-    chmod g+w /etc/passwd && \
-    fix-permissions $HOME && \
-    mkdir -p $HOME/work
-    
+    chmod g+w /etc/passwd
+
+USER $NB_UID
+
 # Make RUN commands use the new environment:
 SHELL ["conda", "run", "-n", "notebook", "/bin/bash", "-c"]
     
-RUN jupyter labextension install jupyterlab-plotly
+RUN jupyter labextension install jupyterlab-plotly && \
+    rm -rf $HOME/.cache/yarn && \
+    fix-permissions $HOME && \
+    fix-permissions $CONDA_DIR && \
+    mkdir -p $HOME/work    
 
 WORKDIR $HOME/work
 
