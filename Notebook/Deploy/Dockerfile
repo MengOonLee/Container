@@ -12,7 +12,6 @@ ARG NB_USER=meng \
 
 # Update PATH so we find Conda installations.
 ENV DEBIAN_FRONTEND=noninteractive \
-    JAVA_HOME=/usr/lib/jvm/default-java \
     HOME=/home/$NB_USER \
     PATH=$CONDA_DIR/bin:$PATH
 
@@ -26,8 +25,6 @@ RUN apt-get update -y && \
         curl \
         ca-certificates \
         locales \
-        default-jre \
-        default-jdk \
         texlive-xetex \
         texlive-fonts-recommended \
         texlive-plain-generic \
@@ -41,6 +38,14 @@ RUN apt-get update -y && \
     apt-get autoclean -y && apt-get clean -y && \
     rm -rf /var/lib/apt/lists && \
     echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && locale-gen && \
+    chmod a+rx /usr/local/bin/fix-permissions && \
+    echo "auth requisite pam_deny.so" >> /etc/pam.d/su && \
+    useradd -l -m -s /bin/bash -N -u $NB_UID $NB_USER && \
+    mkdir -p $CONDA_DIR && \
+    chown $NB_USER:$NB_GID $CONDA_DIR && \
+    chmod g+w /etc/passwd && \
+    fix-permissions $HOME && \
+    fix-permissions $CONDA_DIR && \
     # The NVIDIA image doesn't come with Python pre-installed.
     # We use Miniconda to install the Python version fo our choice.
     wget -qO miniconda.sh "https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh" && \
@@ -54,12 +59,6 @@ RUN apt-get update -y && \
     conda clean --all -f -y && \
     npm cache clean --force && \
     rm -rf miniconda.sh requirements.yml .cache/yarn && \
-    chmod a+rx /usr/local/bin/fix-permissions && \
-    echo "auth requisite pam_deny.so" >> /etc/pam.d/su && \
-    useradd -l -m -s /bin/bash -N -u $NB_UID $NB_USER && \
-    chown $NB_USER:$NB_GID && \
-    chmod g+w /etc/passwd && \
-    fix-permissions $HOME && \
     mkdir -p $HOME/work
     
 # Make RUN commands use the new environment:

@@ -5,7 +5,8 @@ channels:
   - plotly
   - intel
 dependencies:
-  - python=3.8
+  - python==3.8
+  - pip
   - jupyterlab
   - ipywidgets
   - numpy
@@ -22,14 +23,13 @@ dependencies:
   - pymssql
   - networkx
   - pytest
-  - cudatoolkit
   - cudnn
-  - pip
+  - cudatoolkit
   - pip:
-    - tensorflow-gpu
+    - tensorflow-gpu==2.5.0
     - torch
     - torchvision
     - torchaudio
-    - apache-beam[gcp]
-    - tfx
+    - apache-beam[gcp]==2.31.0
     - gym
+    - tfx==1.0.0
