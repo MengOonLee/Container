@@ -19,12 +19,17 @@ COPY fix-permissions /usr/local/bin/fix-permissions
 COPY requirements.yml .
 
 RUN apt-get update -y && \
-    apt-get install -y --no-install-recommends \
+    apt-get install -y \
         build-essential \
         wget \
         curl \
         ca-certificates \
         locales \
+        apt-transport-https \
+        gnupg \
+        python3 \
+        python3-dev \
+        python3-venv \
         texlive-xetex \
         texlive-fonts-recommended \
         texlive-plain-generic \
@@ -32,8 +37,14 @@ RUN apt-get update -y && \
         texlive-publishers \
         texlive-science \
         pandoc && \
-    curl -sL https://deb.nodesource.com/setup_14.x | bash - && \
-    apt-get install -y --no-install-recommends nodejs && \
+    curl -sL "https://deb.nodesource.com/setup_14.x" | bash - && \
+    echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list && \
+    curl "https://packages.cloud.google.com/apt/doc/apt-key.gpg" | apt-key --keyring /usr/share/keyrings/cloud.google.gpg add - && \
+    apt-get update -y && apt-get install -y \
+        nodejs \
+        google-cloud-sdk \ 
+        kubectl && \
+    wget "https://bootstrap.pypa.io/get-pip.py" && python3 get-pip.py && \
     apt-get upgrade -y && apt-get autoremove --purge -y && \
     apt-get autoclean -y && apt-get clean -y && \
     rm -rf /var/lib/apt/lists && \
@@ -53,9 +64,11 @@ RUN apt-get update -y && \
     conda upgrade --all --quiet -y && \
     conda clean --all -f -y && \
     npm cache clean --force && \
-    rm -rf miniconda.sh requirements.yml && \
     chown $NB_USER:$NB_GID $CONDA_DIR && \
-    chmod g+w /etc/passwd
+    chmod g+w /etc/passwd && \
+    fix-permissions $HOME && \
+    fix-permissions $CONDA_DIR && \
+    rm -rf miniconda.sh requirements.yml get-pip.py $HOME/.cache/yarn
 
 USER $NB_UID
 
@@ -63,10 +76,7 @@ USER $NB_UID
 SHELL ["conda", "run", "-n", "notebook", "/bin/bash", "-c"]
     
 RUN jupyter labextension install jupyterlab-plotly && \
-    rm -rf $HOME/.cache/yarn && \
-    fix-permissions $HOME && \
-    fix-permissions $CONDA_DIR && \
-    mkdir -p $HOME/work    
+    mkdir -p $HOME/work
 
 WORKDIR $HOME/work
 

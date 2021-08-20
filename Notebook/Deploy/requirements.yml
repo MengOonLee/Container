@@ -14,7 +14,7 @@ dependencies:
   - pandas
   - matplotlib
   - seaborn
-  - plotly
+  - dash
   - scikit-learn
   - imbalanced-learn
   - tqdm
