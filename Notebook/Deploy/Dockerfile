@@ -27,7 +27,10 @@ RUN apt-get update -y && \
         locales \
         apt-transport-https \
         gnupg \
-        python-opengl \
+        python3 \
+        python3-dev \
+        python3-venv \
+        python3-opengl \
         texlive-xetex \
         texlive-fonts-recommended \
         texlive-plain-generic \
