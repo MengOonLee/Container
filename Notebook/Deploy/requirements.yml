@@ -12,10 +12,12 @@ dependencies:
   - numpy
   - scipy
   - pandas
+  - pyarrow
   - matplotlib
   - seaborn
   - dash
   - scikit-learn
+  - scikit-learn-intelex
   - imbalanced-learn
   - tqdm
   - sqlalchemy
@@ -28,6 +30,7 @@ dependencies:
   - cudnn
   - pip:
     - apache-beam[gcp]
+    - google-cloud-bigquery-storage
     - torch
     - torchvision
     - tensorflow-gpu==2.5.0

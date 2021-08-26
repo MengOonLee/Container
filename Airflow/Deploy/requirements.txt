@@ -1,5 +1,5 @@
 apache-airflow-providers-microsoft-mssql
 apache-airflow-providers-mysql
-apache-airflow-providers-docker
+apache-airflow-providers-neo4j
 apache-airflow-providers-apache-beam
 apache-airflow-providers-google
