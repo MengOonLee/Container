@@ -9,5 +9,5 @@ RUN apt-get update -y && \
     apt-get autoremove --purge -y && \
     rm -rf /var/lib/apt/lists/* && \
     python3 -m pip install -U pip wheel && \
-    pip install -Ur requirements.txt --no-cache-dir &&
+    pip install -Ur requirements.txt --no-cache-dir && \
     rm -rf requirements.txt
