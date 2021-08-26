@@ -1,5 +1,6 @@
 From apache/airflow:2.1.3-python3.8
 
+USER root
 RUN apt-get update -y && \
     apt-get install -y \
         build-essential && \
