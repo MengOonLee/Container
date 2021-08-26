@@ -41,7 +41,6 @@ RUN apt-get update -y && \
         nodejs \
         google-cloud-sdk \ 
         kubectl && \
-    wget "https://bootstrap.pypa.io/get-pip.py" && python3 get-pip.py && \
     apt-get upgrade -y && apt-get autoremove --purge -y && \
     apt-get autoclean -y && apt-get clean -y && \
     rm -rf /var/lib/apt/lists && \
