@@ -19,7 +19,12 @@ spec:
       - name: notebook
         image: darklemon/notebook:latest
         ports:
-        - containerPort: 8888
+        - name: liveness-port
+          containerPort: 8888
+        livenessProbe:
+          tcpSocket:
+            port: liveness-port
+          initialDelaySeconds: 600
         volumeMounts:
         - name: hostvol
           mountPath: "/home/meng/work"
