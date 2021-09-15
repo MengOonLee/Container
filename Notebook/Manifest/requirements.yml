@@ -24,8 +24,8 @@ dependencies:
   - pymysql
   - pymssql
   - networkx
+  - neo4j
   - pytest
-  - gym
   - cudatoolkit
   - cudnn
   - pip:
@@ -33,5 +33,5 @@ dependencies:
     - google-cloud-bigquery-storage
     - torch
     - torchvision
-    - tensorflow-gpu==2.5.0
     - tfx
+    - tensorflow-gpu

@@ -2,8 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: notebook
-  labels:
-    app: notebook
   namespace: tool
 spec:
   replicas: 1
@@ -18,20 +16,19 @@ spec:
       containers:
       - name: notebook
         image: darklemon/notebook:latest
+        imagePullPolicy: IfNotPresent
         ports:
-        - name: liveness-port
-          containerPort: 8888
+        - containerPort: 8888
         livenessProbe:
           tcpSocket:
-            port: liveness-port
+            port: 8888
           initialDelaySeconds: 600
+          periodSeconds: 60
         volumeMounts:
         - name: hostvol
           mountPath: "/home/meng/work"
         resources:
           requests:
-            nvidia.com/gpu: 1
-          limits:
             nvidia.com/gpu: 1
       volumes:
         - name: hostvol

@@ -2,8 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: cloudbeaver
-  labels:
-    app: cloudbeaver
   namespace: tool
 spec:
   replicas: 1
@@ -18,13 +16,14 @@ spec:
       containers:
       - name: cloudbeaver
         image: dbeaver/cloudbeaver:latest
+        imagePullPolicy: IfNotPresent
         ports:
-        - name: liveness-port
-          containerPort: 8978
+        - containerPort: 8978
         livenessProbe:
           tcpSocket:
-            port: liveness-port
+            port: 8978
           initialDelaySeconds: 600
+          periodSeconds: 60
         volumeMounts:
         - name: hostvol
           mountPath: "/opt/cloudbeaver/workspace"

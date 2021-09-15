@@ -40,14 +40,14 @@ defaultAirflowRepository: darklemon/airflow
 defaultAirflowTag: "latest"
 
 # Airflow version (Used to make some decisions based on Airflow Version being deployed)
-airflowVersion: "2.1.3"
+airflowVersion: "2.1.2"
 
 # Images
 images:
   airflow:
     repository: darklemon/airflow
     tag: latest
-    pullPolicy: Always
+    pullPolicy: IfNotPresent
   pod_template:
     repository: ~
     tag: ~
@@ -682,13 +682,13 @@ webserver:
   #   CSRF_ENABLED = True
 
   service:
-    type: NodePort
+    type: LoadBalancer
     ## service annotations
     annotations: {}
     ports:
       - name: airflow-ui
         port: "{{ .Values.ports.airflowUI }}"
-        nodePort: 30003
+        targetPort: "{{ .Values.ports.airflowUI }}"
     # To change the port used to access the webserver:
     # ports:
     #   - name: airflow-ui
@@ -699,7 +699,7 @@ webserver:
     #   - name: only_sidecar
     #     port: 80
     #     targetPort: 8888
-    loadBalancerIP: ~
+    loadBalancerIP: 192.168.0.102
 
   # Select certain nodes for airflow webserver pods.
   nodeSelector: {}
