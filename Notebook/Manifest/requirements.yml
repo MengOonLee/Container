@@ -33,5 +33,5 @@ dependencies:
     - google-cloud-bigquery-storage
     - torch
     - torchvision
+    - tensorflow-gpu==2.5.0
     - tfx
-    - tensorflow-gpu
