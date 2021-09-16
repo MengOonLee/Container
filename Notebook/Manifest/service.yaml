@@ -3,6 +3,8 @@ kind: Service
 metadata:
   name: notebook
   namespace: tool
+  labels:
+    app: notebook
 spec:
   type: LoadBalancer
   selector:
