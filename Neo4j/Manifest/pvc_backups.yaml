@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: pvc-neo4j-backup
+  name: neo4j-backups
   namespace: neo4j
 spec:
   storageClassName: microk8s-hostpath
-  accessModes:
-    - ReadWriteOnce
+  volumeName: neo4j-backups
+  accessModes: ["ReadWriteOnce"]
   resources:
     requests:
-      storage: 100Gi
+      storage: 50Gi

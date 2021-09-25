@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: notebook
-  namespace: tool
+  name: web
+  namespace: notebook
   labels:
-    app: notebook
+    run: notebook
 spec:
   type: LoadBalancer
   selector:

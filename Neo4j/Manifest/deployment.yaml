@@ -16,40 +16,54 @@ spec:
         app: neo4j
     spec:
       securityContext:
-        runAsUser: 1000
-        runAsGroup: 1000
+        runAsNonRoot: true
+        runAsUser: 7474
+        runAsGroup: 7474
         fsGroup: 1000
+        fsGroupChangePolicy: "Always"
       containers:
       - name: neo4j
         image: neo4j:enterprise
         imagePullPolicy: IfNotPresent
         env:
         - name: NEO4J_ACCEPT_LICENSE_AGREEMENT
-          value: "yes"
+          valueFrom:
+            configMapKeyRef:
+              name: neo4j-config
+              key: neo4j_accept_licence_agreement
         - name: NEO4J_AUTH
-          value: "neo4j/neo4j-123"
+          valueFrom:
+            secretKeyRef:
+              name: neo4j-secret
+              key: neo4j_auth
         - name: NEO4JLABS_PLUGINS
-          value: '["apoc", "graph-data-science", "bloom"]'
+          valueFrom:
+            configMapKeyRef:
+              name: neo4j-config
+              key: neo4j_plugins
         ports:
         - name: http
           containerPort: 7474
         - name: bolt
           containerPort: 7687
+        readinessProbe:
+          tcpSocket:
+            port: 7687
+          initialDelaySeconds: 60
+          periodSeconds: 60
         livenessProbe:
           tcpSocket:
             port: 7687
-          initialDelaySeconds: 600
+          initialDelaySeconds: 120
           periodSeconds: 60
-        securityContext:
-          allowPrivilegeEscalation: false
         volumeMounts:
-        - name: neo4j-backup
+        - name: neo4j-backups
           mountPath: "/backups"
         - name: neo4j-logs
           mountPath: "/logs"
       volumes:
-        - name: neo4j-backup
+        - name: neo4j-backups
           persistentVolumeClaim:
-            claimName: pvc-neo4j-backup
+            claimName: neo4j-backups
         - name: neo4j-logs
           emptyDir: {}

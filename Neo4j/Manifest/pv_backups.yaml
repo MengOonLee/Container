@@ -1,15 +1,14 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: airflow-pv-volume
+  name: neo4j-backups
   labels:
     type: local
-  namespace: airflow
 spec:
   storageClassName: microk8s-hostpath
+  accessModes: ["ReadWriteOnce"]
   capacity:
-    storage: 20Gi
-  accessModes:
-    - ReadWriteOnce
+    storage: 50Gi
   hostPath:
-    path: "/home/meng/work/Airflow"
+    type: DirectoryOrCreate
+    path: "/home/meng/neo4j/backups"

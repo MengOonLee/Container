@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: notebook
-  namespace: tool
+  namespace: notebook
   labels:
     app: notebook
 spec:
@@ -21,13 +21,18 @@ spec:
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8888
+        readinessProbe:
+          tcpSocket:
+            port: 8888
+          initialDelaySeconds: 60
+          periodSeconds: 60
         livenessProbe:
           tcpSocket:
             port: 8888
-          initialDelaySeconds: 600
+          initialDelaySeconds: 120
           periodSeconds: 60
         volumeMounts:
-        - name: hostvol
+        - name: notebook-work
           mountPath: "/home/meng/work"
         resources:
           requests:
@@ -35,6 +40,6 @@ spec:
           limits:
             nvidia.com/gpu: 1
       volumes:
-        - name: hostvol
-          hostPath:
-            path: "/home/meng/work"
+        - name: notebook-work
+          persistentVolumeClaim:
+            claimName: notebook-work

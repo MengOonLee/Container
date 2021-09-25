@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: notebook-work
+  namespace: notebook
+spec:
+  storageClassName: microk8s-hostpath
+  volumeName: notebook-work
+  accessModes: ["ReadWriteOnce"]
+  resources:
+    requests:
+      storage: 50Gi

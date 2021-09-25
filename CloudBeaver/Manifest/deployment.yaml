@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: cloudbeaver
-  namespace: tool
+  namespace: cloudbeaver
   labels:
     app: cloudbeaver
 spec:
@@ -21,15 +21,20 @@ spec:
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8978
+        readinessProbe:
+          tcpSocket:
+            port: 8978
+          initialDelaySeconds: 30
+          periodSeconds: 60
         livenessProbe:
           tcpSocket:
             port: 8978
-          initialDelaySeconds: 600
+          initialDelaySeconds: 60
           periodSeconds: 60
         volumeMounts:
-        - name: hostvol
-          mountPath: "/opt/cloudbeaver/workspace"
+        - name: cloudbeaver-workspace
+          mountPath: /opt/cloudbeaver/workspace
       volumes:
-        - name: hostvol
-          hostPath:
-            path: "/var/cloudbeaver/workspace"
+        - name: cloudbeaver-workspace
+          persistentVolumeClaim:
+            claimName: cloudbeaver-workspace
