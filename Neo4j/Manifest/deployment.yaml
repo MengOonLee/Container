@@ -59,11 +59,7 @@ spec:
         volumeMounts:
         - name: neo4j-backups
           mountPath: "/backups"
-        - name: neo4j-logs
-          mountPath: "/logs"
       volumes:
         - name: neo4j-backups
           persistentVolumeClaim:
             claimName: neo4j-backups
-        - name: neo4j-logs
-          emptyDir: {}
