@@ -24,7 +24,6 @@ dependencies:
   - pymysql
   - pymssql
   - networkx
-  - pygraphviz
   - neo4j-python-driver
   - pytest
   - cudatoolkit
@@ -36,3 +35,4 @@ dependencies:
     - torchvision
     - tensorflow-gpu==2.5.0
     - tfx
+    - pygraphviz
