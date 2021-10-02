@@ -24,6 +24,7 @@ dependencies:
   - pymysql
   - pymssql
   - networkx
+  - pygraphviz
   - neo4j-python-driver
   - pytest
   - cudatoolkit
