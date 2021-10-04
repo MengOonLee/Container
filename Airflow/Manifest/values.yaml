@@ -133,10 +133,10 @@ ingress:
       secretName: ""
 
     # HTTP paths to add to the flower Ingress before the default path
-    precedingPaths: []
+    # precedingPaths: []
 
     # Http paths to add to the flower Ingress after the default path
-    succeedingPaths: []
+    # succeedingPaths: []
 
 # Network policy configuration
 networkPolicies:
@@ -268,8 +268,8 @@ fernetKey: ~
 fernetKeySecretName: ~
 
 # Flask secret key for Airflow Webserver: `[webserver] secret_key` in airflow.cfg
-webserverSecretKey: ~
-webserverSecretKeySecretName: ~
+webserverSecretKey: webserver-secret-key
+webserverSecretKeySecretName: airflow-secret
 
 # In order to use kerberos you need to create secret containing the keytab file
 # The secret name should follow naming convention of the application where resources are
