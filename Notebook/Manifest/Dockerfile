@@ -32,7 +32,7 @@ RUN apt-get update -y && \
         texlive-science \
         pandoc && \
     curl -sL "https://deb.nodesource.com/setup_14.x" | bash - && \
-    apt-get update -y && apt-get install -y nodejs && \
+    apt-get install -y nodejs && \
     apt-get upgrade -y && apt-get autoremove --purge -y && \
     apt-get autoclean -y && apt-get clean -y && \
     rm -rf /var/lib/apt/lists && \
