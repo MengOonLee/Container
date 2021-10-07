@@ -24,14 +24,7 @@ RUN apt-get update -y && \
         wget \
         curl \
         ca-certificates \
-        locales \
-        texlive-xetex \
-        texlive-fonts-recommended \
-        texlive-plain-generic \
-        texlive-latex-extra \
-        texlive-publishers \
-        texlive-science \
-        pandoc && \
+        locales && \
     curl -sL "https://deb.nodesource.com/setup_14.x" | bash - && \
     apt-get install -y nodejs && \
     apt-get upgrade -y && apt-get autoremove --purge -y && \
