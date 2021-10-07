@@ -3,7 +3,6 @@ channels:
   - defaults
   - conda-forge
   - plotly
-  - intel
 dependencies:
   - python==3.8
   - pip
@@ -17,14 +16,12 @@ dependencies:
   - seaborn
   - dash
   - scikit-learn
-  - scikit-learn-intelex
   - imbalanced-learn
   - tqdm
   - sqlalchemy
   - pymysql
   - pymssql
   - networkx
-  - python-louvain
   - neo4j-python-driver
   - pytest
   - cudatoolkit
@@ -36,4 +33,3 @@ dependencies:
     - torchvision
     - tensorflow-gpu==2.5.0
     - tfx
-    - pygraphviz
