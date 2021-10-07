@@ -23,6 +23,7 @@ RUN apt-get update -y && \
         build-essential \
         wget \
         curl \
+        ca-certificates \
         locales \
         texlive-xetex \
         texlive-fonts-recommended \
