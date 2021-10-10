@@ -24,12 +24,12 @@ spec:
         readinessProbe:
           tcpSocket:
             port: 8888
-          initialDelaySeconds: 60
+          initialDelaySeconds: 30
           periodSeconds: 60
         livenessProbe:
           tcpSocket:
             port: 8888
-          initialDelaySeconds: 120
+          initialDelaySeconds: 60
           periodSeconds: 60
         volumeMounts:
         - name: notebook-work
