@@ -7,7 +7,7 @@ ARG NB_USER=meng \
     NB_UID=1000 \
     NB_GID=100 \
     NB_ENV=notebook \
-    PYTHON_VER=3.8 \
+    PYTHON_VER=3 \
     CONDA_DIR=/opt/conda
 
 # Update PATH so we find Conda installations.
