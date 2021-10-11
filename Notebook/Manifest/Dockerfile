@@ -1,4 +1,4 @@
-FROM nvidia/cuda:11.4.0-base-ubuntu20.04
+FROM ubuntu:latest
 
 LABEL maintainer="Meng Oon Lee <darklemon2000@gmail.com>"
 
