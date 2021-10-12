@@ -1,5 +1,5 @@
 # Stage 1: Builder
-FROM python:3.9-slim as builder
+FROM ubuntu:latest as builder
 
 ARG PYTHON_VER=3.9 \
     CONDA_DIR=/opt/conda
@@ -16,7 +16,7 @@ RUN apt-get update -y && \
         ca-certificates \
         locales && \
     curl -sL "https://deb.nodesource.com/setup_14.x" | bash - && \
-    apt-get install -y nodejs && \
+    apt-get install --no-install-recommends -y nodejs && \
     apt-get upgrade -y && apt-get autoremove --purge -y && \
     apt-get autoclean -y && apt-get clean -y && \
     echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && locale-gen && \
@@ -34,7 +34,7 @@ RUN jupyter labextension install jupyterlab-plotly && \
     npm cache clean --force
 
 # Stage 2: Runtime
-FROM python:3.9-slim
+FROM ubuntu:latest
 
 ARG NB_USER=meng \
     NB_UID=1000 \
@@ -49,6 +49,12 @@ COPY --from=builder $CONDA_DIR/. $CONDA_DIR/
 COPY fix-permissions /usr/local/bin/fix-permissions
 
 RUN apt-get update -y && \
+    apt-get install --no-install-recommends -y \
+        wget \
+        curl \
+        ca-certificates && \
+    apt-get upgrade -y && apt-get autoremove --purge -y && \
+    apt-get autoclean -y && apt-get clean -y && \
     chmod a+rx /usr/local/bin/fix-permissions && \
     echo "auth requisite pam_deny.so" >> /etc/pam.d/su && \
     useradd -l -m -s /bin/bash -N -u $NB_UID $NB_USER && \
