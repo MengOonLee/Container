@@ -34,7 +34,7 @@ RUN jupyter labextension install jupyterlab-plotly && \
     npm cache clean --force
 
 # Stage 2: Runtime
-FROM ubuntu:latest
+FROM nvidia/cuda:11.4.0-base-ubuntu20.04
 
 ARG NB_USER=meng \
     NB_UID=1000 \
