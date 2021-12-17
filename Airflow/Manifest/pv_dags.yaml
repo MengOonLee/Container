@@ -11,4 +11,4 @@ spec:
     storage: 20Gi
   hostPath:
     type: DirectoryOrCreate
-    path: "/home/enlinea/Airflow"
+    path: "/home/meng/Airflow"

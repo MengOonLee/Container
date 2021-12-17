@@ -37,16 +37,16 @@ airflowHome: /opt/airflow
 defaultAirflowRepository: darklemon/airflow
 
 # Default airflow tag to deploy
-defaultAirflowTag: "latest"
+defaultAirflowTag: "2.2.2"
 
 # Airflow version (Used to make some decisions based on Airflow Version being deployed)
-airflowVersion: "2.1.2"
+airflowVersion: "2.2.2"
 
 # Images
 images:
   airflow:
-    repository: darklemon/airflow
-    tag: latest
+    repository: ~
+    tag: ~
     pullPolicy: IfNotPresent
   pod_template:
     repository: ~
@@ -161,7 +161,7 @@ rbac:
 
 # Airflow executor
 # Options: LocalExecutor, CeleryExecutor, KubernetesExecutor, CeleryKubernetesExecutor
-executor: "KubernetesExecutor"
+executor: "CeleryKubernetesExecutor"
 
 # If this is true and using LocalExecutor/KubernetesExecutor/CeleryKubernetesExecutor, the scheduler's
 # service account will have access to communicate with the api-server and launch pods.
@@ -268,8 +268,8 @@ fernetKey: ~
 fernetKeySecretName: ~
 
 # Flask secret key for Airflow Webserver: `[webserver] secret_key` in airflow.cfg
-webserverSecretKey: webserver-secret-key
-webserverSecretKeySecretName: airflow-secret
+webserverSecretKey: ~
+webserverSecretKeySecretName: ~
 
 # In order to use kerberos you need to create secret containing the keytab file
 # The secret name should follow naming convention of the application where resources are
