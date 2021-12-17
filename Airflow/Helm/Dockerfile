@@ -1,4 +1,4 @@
-From apache/airflow:2.2.2-python3.8
+From apache/airflow:2.2.1-python3.8
 
 USER root
 RUN apt-get update -yqq \
@@ -14,3 +14,5 @@ COPY requirements.txt .
 RUN python3 -m pip install --no-cache-dir -qU pip wheel setuptools \
     && python3 -m pip install --no-cache-dir -Ur requirements.txt \
     && rm -rf requirements.txt
+
+COPY --chown=airflow:root test_dag.py /opt/airflow/dags
