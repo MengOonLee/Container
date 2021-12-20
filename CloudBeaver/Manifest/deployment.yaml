@@ -18,7 +18,6 @@ spec:
       containers:
       - name: cloudbeaver
         image: dbeaver/cloudbeaver:latest
-        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8978
         volumeMounts:

@@ -6,14 +6,9 @@ metadata:
   labels:
     run: cloudbeaver
 spec:
-  type: LoadBalancer
+  type: NodePort
   selector:
     app: cloudbeaver
   ports:
-  - protocol: TCP
-    targetPort: 8978
-    port: 8978
-status:
-  loadBalancer:
-    ingress:
-    - ip: 192.168.0.100
+  - port: 8978
+    nodePort: 30001
