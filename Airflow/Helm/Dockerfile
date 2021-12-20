@@ -9,10 +9,10 @@ RUN apt-get update -yqq \
     && apt-get autoclean -yqq \
     && rm -rf /var/lib/apt/lists/*
 
+COPY --chown=airflow:root test_dag.py /opt/airflow/dags/
+
 USER airflow
 COPY requirements.txt .
 RUN python3 -m pip install --no-cache-dir -qU pip wheel setuptools \
     && python3 -m pip install --no-cache-dir -Ur requirements.txt \
     && rm -rf requirements.txt
-
-COPY --chown=airflow:root test_dag.py /opt/airflow/dags
