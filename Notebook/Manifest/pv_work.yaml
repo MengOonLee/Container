@@ -8,7 +8,7 @@ spec:
   storageClassName: microk8s-hostpath
   accessModes: ["ReadWriteOnce"]
   capacity:
-    storage: 50Gi
+    storage: 100Gi
   hostPath:
     type: DirectoryOrCreate
-    path: /home/enlinea/work
+    path: /home/meng/work
