@@ -12,8 +12,8 @@ ENV TZ=Asia/Kuala_Lumpur
 
 COPY fix-permissions /usr/local/bin/fix-permissions
 
-RUN apt-get update -y \
-    && apt-get install --no-install-recommends -y \
+RUN apt-get update -yqq \
+    && apt-get install --no-install-recommends -yqq \
         build-essential \
         python3 \
         python3-pip \
@@ -27,9 +27,9 @@ RUN apt-get update -y \
         texlive-fonts-recommended \
         texlive-plain-generic \
     && curl -sL "https://deb.nodesource.com/setup_14.x" | bash - \
-    && apt-get install --no-install-recommends -y nodejs \
-    && apt-get upgrade -y && apt-get autoremove --purge -y \
-    && apt-get autoclean -y && apt-get clean -y \
+    && apt-get install --no-install-recommends -yqq nodejs \
+    && apt-get upgrade -yqq && apt-get autoremove --purge -yqq \
+    && apt-get autoclean -yqq && apt-get clean -yqq \
     && rm -rf /var/lib/apt/lists \
     && echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && locale-gen \
     && echo "auth requisite pam_deny.so" >> /etc/pam.d/su \
@@ -45,8 +45,10 @@ WORKDIR $HOME
 COPY requirements.txt .
     
 RUN python3 -m venv $VENV \
-    && python3 -m pip install -U pip wheel \
-    && pip install --no-cache-dir -Ur requirements.txt \
+    && python3 -m pip install --no-cache-dir -qU pip wheel \
+    && pip install --no-cache-dir -qUr requirements.txt \
+    # Verify that there are no conflicting dependencies.
+    && pip check \
     && jupyter labextension install jupyterlab-plotly \
     && npm cache clean --force \
     && rm -rf requirements.txt .cache/yarn

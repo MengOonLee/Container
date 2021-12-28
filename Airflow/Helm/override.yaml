@@ -1,0 +1,11 @@
+executor: "CeleryKubernetesExecutor"
+
+webserverSecretKeySecretName: "airflow-secret"
+
+webserver:
+  service:
+    type: NodePort
+    ports:
+    - name: airflow-ui
+      port: 8080
+      nodePort: 30003
