@@ -2,6 +2,7 @@ executor: "CeleryKubernetesExecutor"
 
 webserverSecretKeySecretName: "airflow-secret"
 
+# webserver-service
 webserver:
   service:
     type: NodePort
@@ -9,3 +10,16 @@ webserver:
     - name: airflow-ui
       port: 8080
       nodePort: 30003
+    
+# repository
+images:
+  airflow:
+    repository: "darklemon/airflow"
+    tag: "latest"
+    pullPolicy: Always
+    
+# dags
+dags:
+  persistence:
+    enabled: true
+    existingClaim: airflow-dags
