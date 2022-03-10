@@ -11,4 +11,4 @@ spec:
     storage: 50Gi
   hostPath:
     type: DirectoryOrCreate
-    path: "/home/enlinea/work/Airflow/dags"
+    path: "/home/meng/work/Airflow/dags"

@@ -9,7 +9,6 @@ webserver:
     ports:
     - name: airflow-ui
       port: 8080
-      nodePort: 30003
     
 # repository
 images:
