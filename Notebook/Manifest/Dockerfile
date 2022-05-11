@@ -16,6 +16,7 @@ RUN apt-get update -yqq \
     && apt-get install --no-install-recommends -yqq \
         build-essential \
         python3 \
+        python3-dev \
         python3-pip \
         python3-venv \
         wget \
@@ -26,6 +27,8 @@ RUN apt-get update -yqq \
         texlive-xetex \
         texlive-fonts-recommended \
         texlive-plain-generic \
+        texlive-latex-extra \
+        texlive-science \
     && curl -sL "https://deb.nodesource.com/setup_14.x" | bash - \
     && apt-get install --no-install-recommends -yqq nodejs \
     && apt-get upgrade -yqq && apt-get autoremove --purge -yqq \
