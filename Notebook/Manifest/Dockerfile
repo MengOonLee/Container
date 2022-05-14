@@ -1,4 +1,4 @@
-FROM nvidia/cuda:11.4.0-cudnn8-runtime-ubuntu20.04
+FROM nvidia/cuda:11.6.0-cudnn8-runtime-ubuntu20.04
 
 ARG NB_USER=meng \
     NB_UID=1000 \
