@@ -17,12 +17,17 @@ spec:
     spec:
       containers:
       - name: notebook
-        image: jupyter/base-notebook:latest
+        image: darklemon/notebook:latest
         ports:
         - containerPort: 8888
         volumeMounts:
         - name: notebook-work
-          mountPath: "/home/jovyan/work"
+          mountPath: "/home/meng/work"
+        resources:
+          requests:
+            nvidia.com/gpu: 1
+          limits:
+            nvidia.com/gpu: 1
       volumes:
         - name: notebook-work
           persistentVolumeClaim:

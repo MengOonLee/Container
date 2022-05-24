@@ -11,4 +11,4 @@ spec:
     storage: 100Gi
   hostPath:
     type: DirectoryOrCreate
-    path: /home/meng/work
+    path: /home/enlinea/work
