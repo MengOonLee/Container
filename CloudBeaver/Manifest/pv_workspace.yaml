@@ -11,4 +11,4 @@ spec:
     storage: 5Gi
   hostPath:
     type: DirectoryOrCreate
-    path: /home/enlinea/work/cloudbeaver/workspace
+    path: /home/meng/Work/cloudbeaver/workspace
