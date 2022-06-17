@@ -20,11 +20,13 @@ RUN apt update -y \
         texlive-plain-generic \
         texlive-latex-extra \
         texlive-science \
+        openjdk-11-jre-headless \
     && curl -fsSL "https://deb.nodesource.com/setup_lts.x" | bash - \
     && apt install -y nodejs \
     && apt upgrade -y && apt autoremove --purge -y \
     && apt autoclean -y && apt clean -y \
     && rm -rf /var/lib/apt/lists \
+    && update-alternatives --config java \
     && python3 -m pip install --no-cache-dir -U pip wheel \
     && pip install --no-cache-dir -Ur requirements.txt \
     && jupyter labextension install jupyterlab-plotly \
