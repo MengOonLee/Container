@@ -12,6 +12,7 @@ ENV NB_GID=${NB_GID}
 ENV HOME="/home/${NB_USER}"
 ENV VENV="${HOME}/venv"
 ENV PATH="${VENV}/bin:${PATH}"
+ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 
 COPY fix-permissions /usr/local/bin/fix-permissions
 
