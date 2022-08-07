@@ -8,7 +8,7 @@ spec:
   storageClassName: microk8s-hostpath
   accessModes: ["ReadWriteMany"]
   capacity:
-    storage: 20Gi
+    storage: 50Gi
   hostPath:
     type: DirectoryOrCreate
     path: "/home/meng/Work/Airflow/dags"

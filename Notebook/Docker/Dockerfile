@@ -21,11 +21,8 @@ RUN apt-get update -y \
     && apt-get upgrade -y \
     && apt-get autoremove --purge -y \
     && apt-get install -y --no-install-recommends \
-        build-essential \
-        python3 \
-        python3-dev \
-        python3-pip \
         python3-venv \
+        python3-dev \
         wget \
         curl \
         git \
@@ -40,7 +37,9 @@ RUN apt-get update -y \
     && apt-get install -y --no-install-recommends \ 
         nodejs \
     && pip uninstall -y -r <(pip freeze) \
-    && apt-get upgrade -y && apt-get autoremove --purge -y \
+    && apt-get update -y \
+    && apt-get upgrade -y \
+    && apt-get autoremove --purge -y \
     && apt-get autoclean -y && apt-get clean -y \
     && rm -rf /var/lib/apt/lists/* \
     && update-alternatives --config java \
@@ -55,16 +54,17 @@ USER $NB_UID
 
 WORKDIR $HOME
 
-COPY requirements.txt .
-
 RUN python3 -m venv $VENV \
     && python3 -m pip install --no-cache-dir -U pip wheel \
-    && pip install --no-cache-dir -Ur requirements.txt \
+    && pip install --no-cache-dir -U \
+        jupyterlab \
+        ipywidgets \
+        nbconvert \
     && pip check \
     && jupyter labextension install jupyterlab-plotly \
     && npm cache clean --force \
     && jupyter lab clean \
-    && rm -rf requirements.txt .cache/yarn
+    && rm -rf .cache/yarn
 
 WORKDIR $HOME/work
 

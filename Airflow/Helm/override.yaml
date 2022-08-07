@@ -1,3 +1,11 @@
+
+# Images
+images:
+  airflow:
+    repository: darklemon/airflow
+    tag: latest
+    pullPolicy: Always
+
 # Webserver secret key
 webserverSecretKey: $(python3 -c 'import secrets; print(secrets.token_hex(16))')
 
@@ -6,24 +14,9 @@ executor: CeleryKubernetesExecutor
 logs:
   persistence:
     enabled: true
-    
-# Webserver-service
-webserver:
-  service:
-    type: NodePort
-    ports:
-    - name: airflow-ui
-      port: 8080
 
 # dags
 dags:
   persistence:
     enabled: true
     existingClaim: airflow-dags
-        
-# Images
-# images:
-#   airflow:
-#     repository: darklemon/airflow
-#     tag: latest
-#     pullPolicy: Always
