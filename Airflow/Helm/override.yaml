@@ -1,21 +1,21 @@
 
-# Images
+## Images
 images:
   airflow:
     repository: darklemon/airflow
     tag: latest
     pullPolicy: Always
 
-# Webserver secret key
+## Webserver secret key
 webserverSecretKey: $(python3 -c 'import secrets; print(secrets.token_hex(16))')
 
-# Executor
+## Executor
 executor: CeleryKubernetesExecutor
 logs:
   persistence:
     enabled: true
 
-# dags
+## dags
 dags:
   persistence:
     enabled: true
