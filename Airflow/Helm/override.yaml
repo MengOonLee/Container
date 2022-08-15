@@ -10,7 +10,7 @@ images:
 webserverSecretKey: $(python3 -c 'import secrets; print(secrets.token_hex(16))')
 
 ## Executor
-executor: CeleryKubernetesExecutor
+executor: 'CeleryKubernetesExecutor'
 logs:
   persistence:
     enabled: true
@@ -20,3 +20,12 @@ dags:
   persistence:
     enabled: true
     existingClaim: airflow-dags
+    
+config:
+  webserver:
+    expose_config: 'True'
+    default_wrap: 'True'
+  email:
+    email_backend: 'airflow.providers.sendgrid.utils.emailer.send_email'
+    email_conn_id: 'sendgrid_default'
+    from_email: 'noreply@airflow.com'
