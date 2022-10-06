@@ -33,6 +33,7 @@ RUN apt-get update -y \
         texlive-latex-extra \
         texlive-science \
         openjdk-11-jre-headless \
+        graphviz \
     && curl -fsSL "https://deb.nodesource.com/setup_lts.x" | bash - \
     && apt-get install -y --no-install-recommends \ 
         nodejs \
