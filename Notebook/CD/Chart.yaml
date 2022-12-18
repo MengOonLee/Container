@@ -1,9 +1,0 @@
-apiVersion: v1
-name: jupyterlab
-description: Jupyter lab
-keywords:
-- jupyterlab
-version: 1.0.0
-maintainers:
-- name: MengOonLee
-  email: darklemon2000@gmail.com

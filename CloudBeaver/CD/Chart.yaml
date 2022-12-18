@@ -1,9 +1,0 @@
-apiVersion: v1
-name: cloudbeaver
-description: DBeaver in cloud
-keywords:
-- dbeaver
-version: latest
-maintainers:
-- name: MengOonLee
-  email: darklemon2000@gmail.com
