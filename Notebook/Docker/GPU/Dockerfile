@@ -21,6 +21,7 @@ RUN apt-get update -y \
     && apt-get upgrade -y \
     && apt-get autoremove --purge -y \
     && apt-get install -y --no-install-recommends \
+        python3 \
         python3-venv \
         python3-dev \
         wget \

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 export REPOSITORY=darklemon
-export IMAGE=notebook
+export IMAGE=notebook-gpu
 export TAG=latest
 
 docker build . --no-cache --pull \
