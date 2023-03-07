@@ -1,4 +1,4 @@
-ARG BASE=ubuntu:latest
+ARG BASE=tensorflow/tensorflow:latest
 FROM $BASE
 
 ARG NB_USER=meng
@@ -38,6 +38,7 @@ RUN apt-get update -y \
     && curl -fsSL "https://deb.nodesource.com/setup_lts.x" | bash - \
     && apt-get install -y --no-install-recommends \ 
         nodejs \
+    && pip freeze | xargs pip uninstall -y \
     && apt-get update -y \
     && apt-get upgrade -y \
     && apt-get autoremove --purge -y \
